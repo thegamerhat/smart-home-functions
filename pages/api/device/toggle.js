@@ -31,14 +31,17 @@ export default async function handler(req, res) {
       deviceState
     );
 
-    // Return with status
-    return res.json({
-      message: `⚡ device set to ${deviceState}`,
-      ...deviceStatus,
-    });
+    // Handle error if exists
+    // else return JSON with device status.
+
+    if (deviceStatus.error) return res.json(deviceStatus);
+    else
+      return res.json({
+        message: `⚡ device set to ${deviceState}`,
+        ...deviceStatus,
+      });
   } else {
     // Handle any other methods
-
     return res.json({
       error: "Only HTTP-POST method is accepted.",
     });
