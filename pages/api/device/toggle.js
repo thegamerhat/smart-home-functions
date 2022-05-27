@@ -26,20 +26,16 @@ export default async function handler(req, res) {
     });
 
     // Set the device state
-    const setDeviceStatus = async () => {
-      return await EweLinkConnection.setDevicePowerState(deviceId, deviceState);
-    };
-    
-    let deviceStatus = setDeviceStatus();
+    const deviceStatus = await EweLinkConnection.setDevicePowerState(
+      deviceId,
+      deviceState
+    );
 
     // Handle error if exists
     // else return JSON with device status.
 
     if (deviceStatus.error) {
-      // Try again
-      let deviceStatus = setDeviceStatus();
-
-      // and then return that
+      // Return that error
       return res.json(deviceStatus);
     } else
       return res.json({
